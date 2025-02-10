@@ -33,7 +33,7 @@
     ```
 2. 下载faster-faster-whisper语音识别模型到`model/faster-whisper-small/`目录，[下载链接](https://huggingface.co/guillaumekln/faster-whisper-small/tree/main)。
 
-[整合包](https://pan.baidu.com/s/1pRjYZf7vSd2ccW_u1oq_pQ?pwd=6666)直接下载解压，双击`launch.bat`启动,可以略过以上安装步骤。
+整合包下载解压后，直接双击`launch.bat`启动,可以略过以上安装步骤，[下载链接](https://pan.baidu.com/s/1pRjYZf7vSd2ccW_u1oq_pQ?pwd=6666)。
 ## 使用教程
 聊天界面：
 ![img](/src/chat.png)

@@ -1,0 +1,11 @@
+requests
+faster-whisper
+webrtcvad-wheels
+torch
+torchaudio
+torchvision
+customtkinter
+numpy
+pyaudio
+ollama
+pydub

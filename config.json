@@ -1,0 +1,6 @@
+{
+    "character": "character/Nekko/Nekko.png",
+    "stt_model_path": "model/faster-whisper-small",
+    "key_tts": "<Control-p>",
+    "key_recording": "<Control-r>"
+}

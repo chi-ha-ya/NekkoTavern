@@ -9,3 +9,6 @@ numpy
 pyaudio
 ollama
 pydub
+chromadb
+langchain-community
+langchain-chroma

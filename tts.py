@@ -72,7 +72,8 @@ class GPT_Sovits_TTS:
                 print(
                     f"Failed to get audio data. Status code: {response.status_code}")
         except requests.exceptions.RequestException as e:
-            print(f"生成音频失败，TTS 引擎未启动？错误信息:\n {e}")
+            # print(f"生成音频失败，TTS 引擎未启动？错误信息:\n {e}")
+            pass
 
     def tts_process(self):
         while not self.stop_event.is_set():

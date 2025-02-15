@@ -109,12 +109,17 @@ def load_settings_from_json(file_path: str) -> dict:
         return None
 
 
-def load_character(file_path: str):
+def load_settings_from_file(file_path: str):
     try:
         if file_path.lower().endswith('.png'):
             data = load_settings_from_png(file_path)
-        else:
+        elif file_path.lower().endswith('json'):
             data = load_settings_from_json(file_path)
+        else:
+            with open(file_path, "r", encoding="utf-8") as file:
+                content = file.read()
+            data = content
+
         return data
     except Exception as e:
         print(f"Error loading character data: {e}")
@@ -183,7 +188,7 @@ def main():
         if os.path.isfile(input_path):
             # 如果是文件，处理单个文件
             if input_path.lower().endswith('.png'):
-                character_data = load_character(input_path)
+                character_data = load_settings_from_file(input_path)
                 if character_data:
                     json_file_path = os.path.splitext(input_path)[0] + '.json'
                     save_settings_to_json(character_data, json_file_path)
@@ -196,7 +201,7 @@ def main():
             for file_name in os.listdir(input_path):
                 if file_name.lower().endswith('.png'):
                     png_file_path = os.path.join(input_path, file_name)
-                    character_data = load_character(png_file_path)
+                    character_data = load_settings_from_file(png_file_path)
                     if character_data:
                         json_file_path = os.path.splitext(
                             png_file_path)[0] + '.json'

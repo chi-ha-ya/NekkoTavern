@@ -84,4 +84,4 @@ class GPT_Sovits_TTS:
                 elif text is None:  # Check for None explicitly
                     break
             time.sleep(0.01)  # Reduce sleep time for responsiveness
-        print("TTS 处理线程已停止")
+        # print("TTS 处理线程已停止")

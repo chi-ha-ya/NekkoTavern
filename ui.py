@@ -408,7 +408,7 @@ class MainGUI:
         temperature_label.grid(row=5, column=0, padx=5, pady=5, sticky="e")
         temperature_slider = ctk.CTkSlider(
             self.character_info_frame,
-            from_=0.0, to=1.0,
+            from_=0.0, to=2.0,
             number_of_steps=200,
             variable=self.parameters_temperature_var,
             command=self.update_temperature_label
@@ -425,18 +425,18 @@ class MainGUI:
             row=5, column=2, padx=1, pady=1, sticky="w")
 
         # Num Predict
-        num_predict_label = ctk.CTkLabel(
-            self.character_info_frame,
-            text="num_predict:",
-            font=Font_YaHei_12
-        )
-        num_predict_label.grid(row=6, column=0, padx=5, pady=5, sticky="e")
-        num_predict_entry = ctk.CTkEntry(
-            self.character_info_frame,
-            textvariable=self.parameters_num_predict_var,
-            font=Font_YaHei_12
-        )
-        num_predict_entry.grid(row=6, column=1, padx=5, pady=5, sticky="nsew")
+        # num_predict_label = ctk.CTkLabel(
+        #     self.character_info_frame,
+        #     text="num_predict:",
+        #     font=Font_YaHei_12
+        # )
+        # num_predict_label.grid(row=6, column=0, padx=5, pady=5, sticky="e")
+        # num_predict_entry = ctk.CTkEntry(
+        #     self.character_info_frame,
+        #     textvariable=self.parameters_num_predict_var,
+        #     font=Font_YaHei_12
+        # )
+        # num_predict_entry.grid(row=6, column=1, padx=5, pady=5, sticky="nsew")
 
         # Repeat Penalty
         repeat_penalty_label = ctk.CTkLabel(
@@ -1067,7 +1067,7 @@ class MainGUI:
             # "seed": int(self.parameters_seed_var.get()),
             # "stop": self.parameters_stop_var.get(),
             # "tfs_z": float(self.parameters_tfs_z_var.get()),
-            "num_predict": int(self.parameters_num_predict_var.get()),
+            # "num_predict": int(self.parameters_num_predict_var.get()),
             "top_k": int(self.parameters_top_k_var.get()),
             # "top_p": float(self.parameters_top_p_var.get()),
             # "min_p": float(self.parameters_min_p_var.get())
@@ -1257,7 +1257,6 @@ class MainGUI:
         self.model_template_var.set(data["template"])
         self.model_message_var.set(data["message"])
 
-        self.character = data
         self.character["ref_audio_path"] = self.ref_audio_var.get()
         self.character["prompt_lang"] = self.ref_audio_lang_var.get()
         self.character["prompt_text"] = self.ref_prompt_text_var.get()

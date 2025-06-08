@@ -7,6 +7,7 @@ import os
 import webrtcvad
 import time
 from pydub import AudioSegment
+import wave
 
 # 麦克风参数
 FORMAT = pyaudio.paInt16
@@ -17,6 +18,8 @@ CHUNK_ACTIVATION_RATE = 0.4  # 激活率阈值,低于此视为静音
 SPEECH_START = "<start>"  # 说话开始的特殊字符
 SPEECH_END = "<end>"  # 说话结束的特殊字符
 SILENCE_THRESHOLD_MS = 1000  # 说话结束的静音阈值（毫秒）
+
+AUDIO_SAVE_DIR = "recordings"  # Directory to save recordings
 
 
 class Faster_Whisper_STT:
@@ -40,6 +43,21 @@ class Faster_Whisper_STT:
         # 加载本地模型
         self.model = WhisperModel(model_path, device="cuda",
                                   compute_type="float16", local_files_only=True)
+
+    def save_audio_to_disk(self, audio_data, sample_rate=16000, channels=1, sample_width=2):
+        """Save audio data to a WAV file with timestamp in the filename."""
+        if not os.path.exists(AUDIO_SAVE_DIR):
+            os.makedirs(AUDIO_SAVE_DIR)
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        filename = os.path.join(AUDIO_SAVE_DIR, f"recording_{timestamp}.wav")
+        with wave.open(filename, 'wb') as wf:
+            wf.setnchannels(channels)
+            wf.setsampwidth(sample_width)
+            wf.setframerate(sample_rate)
+            wf.writeframes(audio_data)
+
+        print(f"Audio saved to {filename}")
+        return filename
 
     def start(self):
         if self.is_recording:
@@ -67,7 +85,7 @@ class Faster_Whisper_STT:
         self.recognizing_thread = None
 
     def is_speech(self, data):
-        frame_size = int(SAMPLE_RATE * 0.02 * 3)  # 10ms* 3的帧大小
+        frame_size = int(SAMPLE_RATE * 0.02 * 1)  # 10ms* 1的帧大小,调高高噪环境识别率
         num_frames = len(data) // frame_size
         count = 0
         for i in range(num_frames):
@@ -75,7 +93,9 @@ class Faster_Whisper_STT:
             if self.vad.is_speech(frame, SAMPLE_RATE):
                 count += 1
             if count > CHUNK_ACTIVATION_RATE * num_frames:
+                # print("speech true")
                 return True
+        # print("speech false")
         return False
 
     def record_audio(self):
@@ -101,6 +121,8 @@ class Faster_Whisper_STT:
                     silence_count += 1
                     if silence_count >= silence_threshold_chunks:  # 静音超过阈值
                         self.audio_queue.put(bytes(speech_buffer))  # 将语音数据放入队列
+                        # self.save_audio_to_disk(
+                        #     bytes(speech_buffer), SAMPLE_RATE, CHANNELS, 2) #保存录音
                         speech_buffer.clear()
                         speech_detected = False
                         silence_count = 0
